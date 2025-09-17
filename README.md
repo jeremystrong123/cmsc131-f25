@@ -9,10 +9,12 @@
 2. **Install the Dev Containers Extension**  
    Open VS Code → Extensions → search for "Dev Containers" → install.
 
-3. **Clone This Repository** 
-    1. In a new VS Code window, click the "Clone Git Repository..." option.
-    2. Copy-paste this URL: [https://github.com/johnmdusel-fcc/csmc131-25f-devcontainer.git](https://github.com/johnmdusel-fcc/csmc131-25f-devcontainer.git)
-    3. Select a repository destination.
+3. **Fork Then Clone This Repository** 
+    1. Create a fork of this repository in your personal GitHub account.
+    2. Go to the GitHub page for your fork of this repository. Click the green CODE button and copy the URL for the HTTPS option.
+    3. In a new VS Code window, click the "Clone Git Repository..." option. If you don't see the option, press CTRL+SHIFT+P to open a command palette, then type "clone" and select the option `Git: Clone`.
+    4. Copy-paste the URL in the input box that appears.
+    5. Select a repository destination.
 
 5. **Open in VS Code**
     1. Launch VS Code in this folder.
