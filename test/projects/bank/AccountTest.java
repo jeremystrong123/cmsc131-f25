@@ -15,10 +15,11 @@ public class AccountTest {
         acc = new Account("ABCDEF", "Bob", 99.99, "CHECKING");
     }
 
+    // TODO rewrite so this tests both id == null, owner == null
     @Test
     void constructorThrowsForInvalidID() {
         Exception e = assertThrows(
-        IllegalArgumentException.class
+        IllegalArgumentException.class  // compile error
         () -> {new Account(10, "Bob", 99.99, "CHECKING");}
         );
         assertEquals(
@@ -29,16 +30,16 @@ public class AccountTest {
 
     @Test
     void getIDTest () {
-        assertEquals("ABCDEF", acc.getID())
+        assertEquals("ABCDEF", acc.getID())  // compile error
     }
 
     @Test
     void getNameTest () {
-        assertEquals("Bob", acc.getName())
+        assertEquals("Bob", acc.getName())  // compile error
     }
 
     @Test
     void getBalanceTest () {
-        assertEquals(99.99, acc.getBalance())
+        assertEquals(99.99, acc.getBalance())  // compile error
     }
 }   
