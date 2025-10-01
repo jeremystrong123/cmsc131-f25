@@ -5,22 +5,22 @@ public class Account{
     private double currentBalance;
     private String accountType; //make enum later
 
-    //constructors
+    //constructors TODO javadoc
     public Account(String ID, String Owner, double Balance, String Type) {
         if (ID == null) {
             throw new IllegalArgumentException(
                 "Account ID must be a string."
-            )
+            ) // compile error
         }
         else if (Owner == null) {
             throw new IllegalArgumentException(
                 "Account Owner must be a string."
-            )
+            ) // compile error
         }
-        else if (Type != (CHECKING || SAVINGS)) {
+        else if (Type != (CHECKING || SAVINGS)) { // compile error
             throw new IllegalArgumentException(
                 "Account type must be inputted as 'CHECKING' or 'SAVINGS'."
-            )
+            ) // compile error
         }
         accountID = ID;
         accountOwner = Owner;
