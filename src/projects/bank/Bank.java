@@ -1,4 +1,4 @@
 public class Bank{
     //instance variables
-    private Array 
+    private Array   // compile error
 }
