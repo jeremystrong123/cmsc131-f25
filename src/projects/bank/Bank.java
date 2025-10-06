@@ -1,4 +1,81 @@
+package projects.bank;
+
 public class Bank{
     //instance variables
-    private Array   // compile error
+    private Account[] accounts;
+    private int count = 0;
+
+    //constructors
+     /** 
+     * Initializes the bank's accounts array to have 1000 slots for accounts.
+    */
+    public Bank() {
+        Account[] accounts = new Account[1000];
+    }
+
+    //methods
+    /** 
+     * Adds an account to the accounts array in the first available slot and increments count.
+     * 
+     * @param a Account to be added to the accounts array.
+     * 
+     * @return true or false to tell whether or not an account was added to the array.
+    */
+    public boolean addAccount(Account a) {
+        if (count < accounts.length) {
+            accounts[count] = a;
+            count++;
+            return true;
+        }
+        return false;
+    }
+
+    /** 
+     * Finds an account within the accounts array by searching based on a given ID.
+     * 
+     * @param ID ID of the account that you want to find within the array.
+     * 
+     * @return account with the given ID or null if no account was found.
+    */
+    public Account findAccountByID(String ID) {
+        int currentIndex = 0;
+        Account account = null;
+        while (currentIndex < count) {
+            if (ID.equals(accounts[currentIndex].getID())) {
+                account = accounts[currentIndex];
+            }
+            currentIndex++;
+        }
+        return account;
+    }
+
+    /** 
+     * Finds all accounts within the accounts array that match a given name.
+     * 
+     * @param Name name associated with the account that you want to find.
+     * 
+     * @return an array of all accounts that match the given name.
+    */
+    public Account[] findAccountsByName(String Name) {
+        int currentIndex = 0;
+        int foundAccounts = 0;
+        Account[] accountsNamed = new Account[1000];
+        while (currentIndex < count) {
+            if (Name.equals(accounts[currentIndex].getName())) {
+                accountsNamed[foundAccounts] = accounts[currentIndex];
+                foundAccounts++;
+            }
+            currentIndex++;
+        }
+        return accountsNamed;
+    }
+
+    /** 
+     * Returns the current number of accounts within the accounts array (accessor method).
+     * 
+     * @return current count value.
+    */
+    public int getCount() {
+        return count;
+    }
 }

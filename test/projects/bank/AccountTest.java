@@ -15,12 +15,11 @@ public class AccountTest {
         acc = new Account("ABCDEF", "Bob", 99.99, "CHECKING");
     }
 
-    // TODO rewrite so this tests both id == null, owner == null
     @Test
     void constructorThrowsForInvalidID() {
         Exception e = assertThrows(
-        IllegalArgumentException.class  // compile error
-        () -> {new Account(10, "Bob", 99.99, "CHECKING");}
+        IllegalArgumentException.class, 
+        () -> {new Account(null, "Bob", 99.99, "CHECKING");}
         );
         assertEquals(
             "Account ID must be a string.",
@@ -29,17 +28,41 @@ public class AccountTest {
     }
 
     @Test
+    void constructorThrowsForInvalidOwner() {
+        Exception e = assertThrows(
+        IllegalArgumentException.class, 
+        () -> {new Account("ABCDEF", null, 99.99, "CHECKING");}
+        );
+        assertEquals(
+            "Account Owner must be a string.",
+            e.getMessage()
+        );
+    }
+
+    @Test
+    void constructorThrowsForInvalidType() {
+        Exception e = assertThrows(
+        IllegalArgumentException.class, 
+        () -> {new Account("ABCDEF", "Bob", 99.99, "checkings");}
+        );
+        assertEquals(
+            "Account type must be inputted as 'CHECKING' or 'SAVINGS'.",
+            e.getMessage()
+        );
+    }
+
+    @Test
     void getIDTest () {
-        assertEquals("ABCDEF", acc.getID())  // compile error
+        assertEquals("ABCDEF", acc.getID()); 
     }
 
     @Test
     void getNameTest () {
-        assertEquals("Bob", acc.getName())  // compile error
+        assertEquals("Bob", acc.getName()); 
     }
 
     @Test
     void getBalanceTest () {
-        assertEquals(99.99, acc.getBalance())  // compile error
+        assertEquals(99.99, acc.getBalance()); 
     }
 }   
