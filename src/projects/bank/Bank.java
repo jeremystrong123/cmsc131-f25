@@ -10,7 +10,7 @@ public class Bank{
      * Initializes the bank's accounts array to have 1000 slots for accounts.
     */
     public Bank() {
-        Account[] accounts = new Account[1000];
+        accounts = new Account[1000];
     }
 
     //methods

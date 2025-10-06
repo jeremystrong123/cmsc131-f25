@@ -14,11 +14,28 @@ public class BankTest {
     void createBankAndAccount() {
         bank = new Bank();
         acc = new Account("ABCDEF", "Bob", 99.99, "CHECKING");
+        bank.addAccount(acc);
     }
 
     @Test
     void accountsAreAdded() {
-        assertEquals(bank.addAccount(acc), true);
+        assertEquals(true, bank.addAccount(acc));
+    }
+
+    @Test
+    void findsAccountFromID() {
+        assertEquals(acc, bank.findAccountByID("ABCDEF"));
+    }
+
+    @Test
+    void findsAccountFromName() {
+        Account[] accountsNamed = bank.findAccountsByName("Bob");
+        assertEquals(acc, accountsNamed[0]);
+    }
+
+    @Test
+    void getCountTest() {
+        assertEquals(1, bank.getCount());
     }
 
 }
