@@ -11,36 +11,36 @@ public class Account{
     /** 
      * Constructs an Account with provided values
      * 
-     * @param ID ID for the account, must be a string.
+     * @param id ID for the account, must be a string.
      * 
-     * @param Owner Name of account owner, must be a string.
+     * @param owner Name of account owner, must be a string.
      * 
-     * @param Balance Current balance of the account.
+     * @param balance Current balance of the account.
      * 
-     * @param Type The type of account being checking or savings, must be input as one of these two.
+     * @param type The type of account being checking or savings, must be input as one of these two.
      * 
      * @throws IllegalArgumentException If ID or Owner is not a String and if the string for account type is not 'checking' or 'savings'.
     */
-    public Account(String ID, String Owner, double Balance, String Type) {
-        if (ID == null) {
+    public Account(String id, String owner, double balance, String type) {
+        if (id == null) {
             throw new IllegalArgumentException(
                 "Account ID must be a string."
             ); 
         }
-        else if (Owner == null) {
+        else if (owner == null) {
             throw new IllegalArgumentException(
                 "Account Owner must be a string."
             ); 
         }
-        else if (!Type.toUpperCase().equals("CHECKING") && !Type.toUpperCase().equals("SAVINGS")) {
+        else if (!type.toUpperCase().equals("CHECKING") && !type.toUpperCase().equals("SAVINGS")) {
             throw new IllegalArgumentException(
                 "Account type must be inputted as 'CHECKING' or 'SAVINGS'."
             ); 
         }
-        accountID = ID;
-        accountOwner = Owner;
-        currentBalance = Balance;
-        accountType = Type;
+        accountID = id;
+        accountOwner = owner;
+        currentBalance = balance;
+        accountType = type;
     }
 
     //methods
