@@ -22,10 +22,15 @@ public class BankTest {
         assertEquals(true, bank.addAccount(acc));
     }
 
+    // TODO test add fail returns false
+
+    // TODO correct return value
     @Test
     void findsAccountFromID() {
         assertEquals(acc, bank.findAccountByID("ABCDEF"));
     }
+
+    // TODO test find fail returns correct value
 
     @Test
     void findsAccountFromName() {
