@@ -22,6 +22,7 @@ public class Bank{
      * @return true or false to tell whether or not an account was added to the array.
     */
     public boolean addAccount(Account a) {
+        // TODO validate a
         if (count < accounts.length) {
             accounts[count] = a;
             count++;
@@ -33,15 +34,17 @@ public class Bank{
     /** 
      * Finds an account within the accounts array by searching based on a given ID.
      * 
-     * @param ID ID of the account that you want to find within the array.
+     * @param id ID of the account that you want to find within the array.
      * 
      * @return account with the given ID or null if no account was found.
     */
-    public Account findAccountByID(String ID) {
+    // TODO check spec and correct return type
+    public Account findAccountByID(String id) {
+        // TODO validate id
         int currentIndex = 0;
         Account account = null;
         while (currentIndex < count) {
-            if (ID.equals(accounts[currentIndex].getID())) {
+            if (id.equals(accounts[currentIndex].getID())) {
                 account = accounts[currentIndex];
             }
             currentIndex++;
@@ -52,16 +55,16 @@ public class Bank{
     /** 
      * Finds all accounts within the accounts array that match a given name.
      * 
-     * @param Name name associated with the account that you want to find.
+     * @param name name associated with the account that you want to find.
      * 
      * @return an array of all accounts that match the given name.
     */
-    public Account[] findAccountsByName(String Name) {
+    public Account[] findAccountsByName(String name) {
         int currentIndex = 0;
         int foundAccounts = 0;
         Account[] accountsNamed = new Account[1000];
         while (currentIndex < count) {
-            if (Name.equals(accounts[currentIndex].getName())) {
+            if (name.equals(accounts[currentIndex].getName())) {
                 accountsNamed[foundAccounts] = accounts[currentIndex];
                 foundAccounts++;
             }
