@@ -17,20 +17,53 @@ public class BankTest {
         bank.addAccount(acc);
     }
 
+
+    @Test
+    void addThrowsForNull() {
+        Exception e = assertThrows(
+        IllegalArgumentException.class,
+        () -> {bank.addAccount(null);}
+        );
+        assertEquals(
+            "Account cannot be null.",
+            e.getMessage()
+        );
+    }
+
     @Test
     void accountsAreAdded() {
         assertEquals(true, bank.addAccount(acc));
     }
 
-    // TODO test add fail returns false
-
-    // TODO correct return value
     @Test
-    void findsAccountFromID() {
-        assertEquals(acc, bank.findAccountByID("ABCDEF"));
+    void addFailIsFalse() {
+        for (int i=0; i<1001; i++) {
+            bank.addAccount(new Account ("123", "name", 0, "checking"));
+        }
+        assertEquals(false, bank.addAccount(acc));
     }
 
-    // TODO test find fail returns correct value
+    @Test
+    void findThrowsForNull() {
+        Exception e = assertThrows(
+        IllegalArgumentException.class,
+        () -> {bank.findAccountByID(null);}
+        );
+        assertEquals(
+            "ID must be a string.",
+            e.getMessage()
+        );
+    }
+
+    @Test
+    void findsAccountFromID() {
+        assertEquals(0, bank.findAccountByID("ABCDEF"));
+    }
+
+    @Test
+    void findFailIsFalse() {
+        assertEquals(-1, bank.findAccountByID("123"));
+    }
 
     @Test
     void findsAccountFromName() {

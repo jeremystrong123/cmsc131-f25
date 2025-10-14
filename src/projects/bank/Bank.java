@@ -20,9 +20,13 @@ public class Bank{
      * @param a Account to be added to the accounts array.
      * 
      * @return true or false to tell whether or not an account was added to the array.
+     * 
+     * @throws IllegalArgumentException if given Account a is null
     */
     public boolean addAccount(Account a) {
-        // TODO validate a
+        if (a == null) {
+            throw new IllegalArgumentException("Account cannot be null.");
+        }
         if (count < accounts.length) {
             accounts[count] = a;
             count++;
@@ -36,20 +40,22 @@ public class Bank{
      * 
      * @param id ID of the account that you want to find within the array.
      * 
-     * @return account with the given ID or null if no account was found.
+     * @return index within the accounts array of the account with the given ID or -1 if no account was found.
+     * 
+     * @throws IllegalArgumentException if id is null
     */
-    // TODO check spec and correct return type
-    public Account findAccountByID(String id) {
-        // TODO validate id
+    public int findAccountByID(String id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID must be a string.");
+        }
         int currentIndex = 0;
-        Account account = null;
         while (currentIndex < count) {
             if (id.equals(accounts[currentIndex].getID())) {
-                account = accounts[currentIndex];
+                return currentIndex;
             }
             currentIndex++;
         }
-        return account;
+        return -1;
     }
 
     /** 
