@@ -68,4 +68,43 @@ public class Account{
     public double getBalance() {
         return currentBalance;
     }
+
+    /**
+     * Accessor for account type.
+     * @return the type of the account.
+     */
+    public String getType() {
+        return accountType;
+    }
+
+    /**
+     * Creates a CSV line from all values of an Account object.
+     * 
+     * @param a Account to be turned into a CSV line.
+     * 
+     * @return the line for an Acount object to be added to a CSV file.
+     */
+    public String toCSV(Account a) {
+        String type = a.getType().toUpperCase();
+        String id = a.getID();
+        String name = a.getName();
+        String balance = Double.toString(a.getBalance());
+        String[] tokens = {type, id, name, balance};
+        String csv = String.join(",", tokens);
+        return csv;
+    }
+
+    /**
+     * Creates an Account object from a CSV line.
+     * 
+     * @param values line from CSV file.
+     * 
+     * @return Account object created from CSV line.
+     */
+    public static Account createAccountFromCSV(String values) {
+        String[] tokens = values.split(",");
+        double d = Double.parseDouble(tokens[3]);
+        Account a = new Account(tokens[1], tokens[2], d, tokens[0]);
+        return a;
+    }
 }

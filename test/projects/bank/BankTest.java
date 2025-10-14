@@ -76,4 +76,34 @@ public class BankTest {
         assertEquals(1, bank.getCount());
     }
 
+    @Test
+    void loadAccountsTest() {
+        bank.loadAccounts("/workspaces/cmsc131-f25/data/accounts.csv");
+        assertEquals(393, bank.getCount());
+        assertEquals(369, bank.findAccountByID("do458480"));
+        assertEquals(243, bank.findAccountByID("gq777329"));
+    }
+
+    //remove all values from "test-accounts-for-file-save.csv" before running test
+    @Test
+    void writeAccountsTest() {
+        Bank bank2 = new Bank();
+        Account a = Account.createAccountFromCSV("savings,wz240833,Anna Gomez,8111.00");
+        Account b = Account.createAccountFromCSV("checking,hr108256,Anna Gomez,1715.18");
+        Account c = Account.createAccountFromCSV("savings,hr676528,Anna Rodriguez,6738.80");
+        Account d = Account.createAccountFromCSV("checking,tx835396,Anna Rodriguez,2593.18");
+        Account e = Account.createAccountFromCSV("savings,mi131700,Anna Hernandez,7260.84");
+        bank2.addAccount(a);
+        bank2.addAccount(b);
+        bank2.addAccount(c);
+        bank2.addAccount(d);
+        bank2.addAccount(e);
+        bank2.writeAccounts("/workspaces/cmsc131-f25/data/test-accounts-for-file-save.csv");
+        Bank bank3 = new Bank();
+        bank3.loadAccounts("/workspaces/cmsc131-f25/data/test-accounts-for-file-save.csv");
+        assertEquals(5, bank3.getCount());
+        assertEquals(0, bank3.findAccountByID("wz240833"));
+        assertEquals(2, bank3.findAccountByID("hr676528"));
+        assertEquals(4, bank3.findAccountByID("mi131700"));
+    }
 }

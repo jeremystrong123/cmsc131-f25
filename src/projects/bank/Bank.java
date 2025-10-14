@@ -1,5 +1,11 @@
 package projects.bank;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
 public class Bank{
     //instance variables
     private Account[] accounts;
@@ -86,5 +92,56 @@ public class Bank{
     */
     public int getCount() {
         return count;
+    }
+
+    /** 
+     * Loads accounts from a CSV file into the bank's accounts array.
+     * 
+     * @param file file path for the CSV file of accounts to be loaded into the bank.
+    */
+    public void loadAccounts(String file) {
+        File accountsFile = new File(file);
+        Scanner scan;
+        try {
+            scan = new Scanner(accountsFile);
+            while (scan.hasNextLine()) {
+                String current = scan.nextLine();
+                Account a = Account.createAccountFromCSV(current);
+                accounts[count] = a;
+                count++;
+                System.out.println("break");
+            }
+        }
+        catch(FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /** 
+     * Writes all accounts from the bank's accounts array into a CSV file.
+     * 
+     * @param file file path for the CSV file that the account strings will be to be put into.
+     * 
+     * @return true if the operation suceeded, false if it did not.
+    */
+    public boolean writeAccounts(String file) {
+        boolean result = true;
+        File accountsFile = new File(file);
+        FileWriter writer;
+        try {
+            writer = new FileWriter(accountsFile);
+            for (int i = 0; i<count; i++) {
+                String csvLine = accounts[i].toCSV(accounts[i]);
+                System.out.println("break");
+                writer.write(csvLine + System.lineSeparator());
+            }
+            writer.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            result = false;
+        }
+
+        return result;
     }
 }

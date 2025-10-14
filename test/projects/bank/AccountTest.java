@@ -65,4 +65,20 @@ public class AccountTest {
     void getBalanceTest () {
         assertEquals(99.99, acc.getBalance()); 
     }
+
+    @Test
+    void getTypeTest() {
+        assertEquals("CHECKING", acc.getType().toUpperCase());
+    }
+
+    @Test
+    void toCSVCreatesCSV() {
+        assertEquals("CHECKING,ABCDEF,Bob,99.99", acc.toCSV(acc));
+    }
+
+    @Test
+    void createAccountCreatesFromCSV() {
+        Account a = Account.createAccountFromCSV("savings,GHIJKL,Jim,100.0");
+        assertEquals("SAVINGS,GHIJKL,Jim,100.0", a.toCSV(a));
+    }
 }   
