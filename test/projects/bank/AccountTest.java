@@ -81,4 +81,6 @@ public class AccountTest {
         Account a = Account.createAccountFromCSV("savings,GHIJKL,Jim,100.0");
         assertEquals("SAVINGS,GHIJKL,Jim,100.0", a.toCSV(a));
     }
+
+    // TODO test static factory throws on null input
 }   

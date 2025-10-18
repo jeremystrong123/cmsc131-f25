@@ -98,10 +98,12 @@ public class Account{
      * Creates an Account object from a CSV line.
      * 
      * @param values line from CSV file.
+     * TODO be make clear your assumptions about line format (lines 107-108)
      * 
      * @return Account object created from CSV line.
      */
     public static Account createAccountFromCSV(String values) {
+        // TODO validate input
         String[] tokens = values.split(",");
         double d = Double.parseDouble(tokens[3]);
         Account a = new Account(tokens[1], tokens[2], d, tokens[0]);

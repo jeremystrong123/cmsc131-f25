@@ -99,6 +99,7 @@ public class Bank{
      * 
      * @param file file path for the CSV file of accounts to be loaded into the bank.
     */
+    // TODO return boolean
     public void loadAccounts(String file) {
         File accountsFile = new File(file);
         Scanner scan;
@@ -107,9 +108,10 @@ public class Bank{
             while (scan.hasNextLine()) {
                 String current = scan.nextLine();
                 Account a = Account.createAccountFromCSV(current);
+                // use this bank's add method instead of duplicating code
                 accounts[count] = a;
                 count++;
-                System.out.println("break");
+                System.out.println("break"); // remove if not single-stepping
             }
         }
         catch(FileNotFoundException e) {
@@ -132,7 +134,7 @@ public class Bank{
             writer = new FileWriter(accountsFile);
             for (int i = 0; i<count; i++) {
                 String csvLine = accounts[i].toCSV(accounts[i]);
-                System.out.println("break");
+                System.out.println("break"); // ok to remove
                 writer.write(csvLine + System.lineSeparator());
             }
             writer.close();

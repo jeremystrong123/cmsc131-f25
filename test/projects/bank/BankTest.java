@@ -78,7 +78,7 @@ public class BankTest {
 
     @Test
     void loadAccountsTest() {
-        bank.loadAccounts("/workspaces/cmsc131-f25/data/accounts.csv");
+        bank.loadAccounts("data/accounts.csv");
         assertEquals(393, bank.getCount());
         assertEquals(369, bank.findAccountByID("do458480"));
         assertEquals(243, bank.findAccountByID("gq777329"));
@@ -98,12 +98,14 @@ public class BankTest {
         bank2.addAccount(c);
         bank2.addAccount(d);
         bank2.addAccount(e);
-        bank2.writeAccounts("/workspaces/cmsc131-f25/data/test-accounts-for-file-save.csv");
+        bank2.writeAccounts("data/test-accounts-for-file-save.csv");
         Bank bank3 = new Bank();
-        bank3.loadAccounts("/workspaces/cmsc131-f25/data/test-accounts-for-file-save.csv");
+        bank3.loadAccounts("data/test-accounts-for-file-save.csv");
         assertEquals(5, bank3.getCount());
         assertEquals(0, bank3.findAccountByID("wz240833"));
         assertEquals(2, bank3.findAccountByID("hr676528"));
         assertEquals(4, bank3.findAccountByID("mi131700"));
     }
+
+    // TODO test failure modes for loadAccounts, writeAccounts
 }
