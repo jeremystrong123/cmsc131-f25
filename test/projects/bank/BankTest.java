@@ -13,7 +13,7 @@ public class BankTest {
     @BeforeEach
     void createBankAndAccount() {
         bank = new Bank();
-        acc = new Account("ABCDEF", "Bob", 99.99, "CHECKING");
+        acc = new CheckingAccount("ABCDEF", "Bob", 99.99);
         bank.addAccount(acc);
     }
 
@@ -38,7 +38,7 @@ public class BankTest {
     @Test
     void addFailIsFalse() {
         for (int i=0; i<1001; i++) {
-            bank.addAccount(new Account ("123", "name", 0, "checking"));
+            bank.addAccount(new CheckingAccount ("123", "name", 0));
         }
         assertEquals(false, bank.addAccount(acc));
     }
@@ -107,5 +107,41 @@ public class BankTest {
         assertEquals(4, bank3.findAccountByID("mi131700"));
     }
 
-    // TODO test failure modes for loadAccounts, writeAccounts
+    @Test
+    void loadAccountsFailsWithoutFile() {
+        assertEquals(false, bank.loadAccounts("AHH"));
+    }
+
+    @Test
+    void writeAccountsFails() {
+        assertEquals(false, bank.writeAccounts("ahh/ahhh.file"));
+    }
+
+    @Test
+    void processTransactionWorks() {
+        Bank bank2 = new Bank();
+        Account a = Account.createAccountFromCSV("savings,wz240833,Anna Gomez,8111.00");
+        Account b = Account.createAccountFromCSV("checking,hr108256,Anna Gomez,1715.18");
+        Account c = Account.createAccountFromCSV("savings,hr676528,Anna Rodriguez,6738.80");
+        Account d = Account.createAccountFromCSV("checking,tx835396,Anna Rodriguez,2593.18");
+        Account e = Account.createAccountFromCSV("savings,mi131700,Anna Hernandez,7260.84");
+        bank2.addAccount(a);
+        bank2.addAccount(b);
+        bank2.addAccount(c);
+        bank2.addAccount(d);
+        bank2.addAccount(e);
+        assertEquals(0, bank2.processTransactions("data/test-transactions.csv"));
+        assertEquals(7843.43, a.getBalance());
+        assertEquals(2481.71, b.getBalance());
+        assertEquals(6441.50, c.getBalance());
+        assertEquals(3583.93, d.getBalance());
+        assertEquals(6592.69, e.getBalance());
+
+    }
+
+    @Test
+    void processTransactionsFails() {
+        assertEquals(-1, bank.processTransactions("ahh/ahhh.file"));
+    }
+
 }

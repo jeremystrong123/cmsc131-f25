@@ -1,11 +1,14 @@
 package projects.bank;
 
-public class Account{
+abstract class Account{
     //instance variables
-    private String accountID;
-    private String accountOwner;
+    private final String accountID;
+    private final String accountOwner;
     private double currentBalance;
-    private String accountType;
+    /**
+     * Accessor for account type.
+     */
+    abstract AccountType getType();
 
     //constructors
     /** 
@@ -17,11 +20,9 @@ public class Account{
      * 
      * @param balance Current balance of the account.
      * 
-     * @param type The type of account being checking or savings, must be input as one of these two.
-     * 
-     * @throws IllegalArgumentException If ID or Owner is not a String and if the string for account type is not 'checking' or 'savings'.
+     * @throws IllegalArgumentException If ID or Owner is not a String.
     */
-    public Account(String id, String owner, double balance, String type) {
+    protected Account(String id, String owner, double balance) {
         if (id == null) {
             throw new IllegalArgumentException(
                 "Account ID must be a string."
@@ -32,15 +33,9 @@ public class Account{
                 "Account Owner must be a string."
             ); 
         }
-        else if (!type.toUpperCase().equals("CHECKING") && !type.toUpperCase().equals("SAVINGS")) {
-            throw new IllegalArgumentException(
-                "Account type must be inputted as 'CHECKING' or 'SAVINGS'."
-            ); 
-        }
         accountID = id;
         accountOwner = owner;
         currentBalance = balance;
-        accountType = type;
     }
 
     //methods
@@ -70,14 +65,6 @@ public class Account{
     }
 
     /**
-     * Accessor for account type.
-     * @return the type of the account.
-     */
-    public String getType() {
-        return accountType;
-    }
-
-    /**
      * Creates a CSV line from all values of an Account object.
      * 
      * @param a Account to be turned into a CSV line.
@@ -85,7 +72,7 @@ public class Account{
      * @return the line for an Acount object to be added to a CSV file.
      */
     public String toCSV(Account a) {
-        String type = a.getType().toUpperCase();
+        String type = a.getType().toString();
         String id = a.getID();
         String name = a.getName();
         String balance = Double.toString(a.getBalance());
@@ -97,16 +84,79 @@ public class Account{
     /**
      * Creates an Account object from a CSV line.
      * 
-     * @param values line from CSV file.
-     * TODO be make clear your assumptions about line format (lines 107-108)
+     * @param values line from CSV file in format "type,id,name,balance".
      * 
      * @return Account object created from CSV line.
+     * 
+     * @throws IllegalArgumentException if inputted string is null.
      */
     public static Account createAccountFromCSV(String values) {
-        // TODO validate input
+        if (values == null) {
+            throw new IllegalArgumentException("input values cannot be null");
+        }
         String[] tokens = values.split(",");
+        AccountType t = AccountType.valueOf(tokens[0].toUpperCase());
         double d = Double.parseDouble(tokens[3]);
-        Account a = new Account(tokens[1], tokens[2], d, tokens[0]);
-        return a;
+        if (t == AccountType.CHECKING) {
+            return new CheckingAccount(tokens[1], tokens[2], d);
+        }
+        else {
+            return new SavingsAccount(tokens[1], tokens[2], d);
+        }
+    }
+
+    /**
+     * Rounds a given double to 2 decimal places.
+     * 
+     * @param d double to be rounded.
+     * 
+     * @return rounded form of the given double.
+     */
+    public double roundToTwoDecimalPlaces(Double d) {
+        Double answer = Math.floor(d * 100) / 100;
+        return answer;
+    }
+
+    /**
+     * Credits an account with a given transaction amount.
+     * 
+     * @param amount amount to be credited to the account.
+     * 
+     * @throws IllegalArgumentException if amount to be credited is negative or zero.
+     */
+    public void credit(double amount) {
+        double newBalance = 0;
+        if (amount <= 0) {
+            throw new IllegalArgumentException(
+                "Amount to be credited must be a positive number greater than zero."
+            ); 
+        }
+        newBalance = (currentBalance + amount);
+        newBalance = roundToTwoDecimalPlaces(newBalance);
+        currentBalance = newBalance;
+    }
+
+    /**
+     * Debits from an account with a given transaction amount.
+     * 
+     * @param amount amount to be debited from the account.
+     * 
+     * @throws IllegalArgumentException if amount to be debited is negative or zero or if the account does not have suffient funds for the transaction.
+     */
+    public void debit(double amount) {
+        double newBalance = 0;
+        if (amount <= 0) {
+            throw new IllegalArgumentException(
+                "Amount to be debited must be a positive number greater than zero."
+            ); 
+        }
+        else if ((currentBalance - amount) < 0) {
+            throw new IllegalArgumentException(
+                "Non-suffienct funds, account balance cannot be withdrawn over the current balance."
+            ); 
+        }
+        newBalance = (currentBalance - amount);
+        newBalance = roundToTwoDecimalPlaces(newBalance);
+        currentBalance = newBalance;
     }
 }

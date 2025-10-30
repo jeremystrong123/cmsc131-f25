@@ -99,8 +99,8 @@ public class Bank{
      * 
      * @param file file path for the CSV file of accounts to be loaded into the bank.
     */
-    // TODO return boolean
-    public void loadAccounts(String file) {
+    public boolean loadAccounts(String file) {
+        boolean result = true;
         File accountsFile = new File(file);
         Scanner scan;
         try {
@@ -108,15 +108,16 @@ public class Bank{
             while (scan.hasNextLine()) {
                 String current = scan.nextLine();
                 Account a = Account.createAccountFromCSV(current);
-                // use this bank's add method instead of duplicating code
-                accounts[count] = a;
-                count++;
+                addAccount(a);
                 System.out.println("break"); // remove if not single-stepping
             }
+            scan.close();
         }
         catch(FileNotFoundException e) {
             e.printStackTrace();
+            result = false;
         }
+        return result;
     }
 
     /** 
@@ -144,6 +145,42 @@ public class Bank{
             result = false;
         }
 
+        return result;
+    }
+
+    /**
+     * Processes a list of transactions from a file.
+     * 
+     * @param file file path for the file holding all of the transactions.
+     * 
+     * @return 0 if successful, -1 if fail.
+     */
+    public int processTransactions(String file) {
+        int result = 0;
+        File transactionsFile = new File(file);
+        Scanner scan;
+        try {
+            scan = new Scanner(transactionsFile);
+            while (scan.hasNextLine()) {
+                String current = scan.nextLine();
+                Transaction t = Transaction.factoryFromCSV(current);
+                if (t != null) {
+                    Account acc = accounts[this.findAccountByID(t.getID())];
+                    if (acc == null) {
+                        System.out.println("Account with given ID does not exist.");
+                    }
+                    else {
+                        t.execute(acc);
+                    }
+                    
+                }
+            }
+            scan.close();
+        }
+        catch(FileNotFoundException e) {
+            e.printStackTrace();
+            result = -1;
+        }
         return result;
     }
 }

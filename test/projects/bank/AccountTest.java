@@ -8,18 +8,18 @@ import org.junit.jupiter.api.Test;
 
 public class AccountTest {
 
-    private Account acc;
+    private CheckingAccount acc;
 
     @BeforeEach
     void createAccount() {
-        acc = new Account("ABCDEF", "Bob", 99.99, "CHECKING");
+        acc = new CheckingAccount("ABCDEF", "Bob", 99.99);
     }
 
     @Test
     void constructorThrowsForInvalidID() {
         Exception e = assertThrows(
         IllegalArgumentException.class, 
-        () -> {new Account(null, "Bob", 99.99, "CHECKING");}
+        () -> {new CheckingAccount(null, "Bob", 99.99);}
         );
         assertEquals(
             "Account ID must be a string.",
@@ -31,22 +31,10 @@ public class AccountTest {
     void constructorThrowsForInvalidOwner() {
         Exception e = assertThrows(
         IllegalArgumentException.class, 
-        () -> {new Account("ABCDEF", null, 99.99, "CHECKING");}
+        () -> {new CheckingAccount("ABCDEF", null, 99.99);}
         );
         assertEquals(
             "Account Owner must be a string.",
-            e.getMessage()
-        );
-    }
-
-    @Test
-    void constructorThrowsForInvalidType() {
-        Exception e = assertThrows(
-        IllegalArgumentException.class, 
-        () -> {new Account("ABCDEF", "Bob", 99.99, "checkings");}
-        );
-        assertEquals(
-            "Account type must be inputted as 'CHECKING' or 'SAVINGS'.",
             e.getMessage()
         );
     }
@@ -68,7 +56,7 @@ public class AccountTest {
 
     @Test
     void getTypeTest() {
-        assertEquals("CHECKING", acc.getType().toUpperCase());
+        assertEquals(AccountType.CHECKING, acc.getType());
     }
 
     @Test
@@ -82,5 +70,63 @@ public class AccountTest {
         assertEquals("SAVINGS,GHIJKL,Jim,100.0", a.toCSV(a));
     }
 
-    // TODO test static factory throws on null input
+    @Test
+    void factoryThrowsNullInput() {
+        Exception e = assertThrows(
+        IllegalArgumentException.class, 
+        () -> {Account.createAccountFromCSV(null);}
+        );
+        assertEquals(
+            "input values cannot be null",
+            e.getMessage()
+        );
+    }
+
+    @Test
+    void creditAddsToAccount() {
+        acc.credit(10);
+        assertEquals(109.99, acc.getBalance());
+    }
+
+    @Test
+    void creditThrowsForInvalidAmount() {
+        Exception e = assertThrows(
+        IllegalArgumentException.class, 
+        () -> {acc.credit(-1);}
+        );
+        assertEquals(
+            "Amount to be credited must be a positive number greater than zero.",
+            e.getMessage()
+        );
+    }
+
+    @Test
+    void debitRemovesFromAccount() {
+        acc.debit(10);
+        assertEquals(89.99, acc.getBalance());
+    }
+
+    @Test
+    void debitThrowsForInvalidAmount() {
+        Exception e = assertThrows(
+        IllegalArgumentException.class, 
+        () -> {acc.debit(-1);}
+        );
+        assertEquals(
+            "Amount to be debited must be a positive number greater than zero.",
+            e.getMessage()
+        );
+    }
+
+    @Test
+    void debitThrowsForNSF() {
+        Exception e = assertThrows(
+        IllegalArgumentException.class, 
+        () -> {acc.debit(999);}
+        );
+        assertEquals(
+            "Non-suffienct funds, account balance cannot be withdrawn over the current balance.",
+            e.getMessage()
+        );
+    }
 }   
