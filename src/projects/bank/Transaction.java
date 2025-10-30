@@ -9,7 +9,7 @@ abstract class Transaction {
     //abstract methods used by subclasses
     abstract void execute(Account account);
 
-    //abstract boolean validate(Account account);
+    abstract boolean validate(Account account);
 
     //constructor
     /** 

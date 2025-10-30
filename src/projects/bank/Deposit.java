@@ -17,8 +17,20 @@ public class Deposit extends Transaction {
         acc.credit(this.getAmount());
     }
 
-    /*@Override
+    /**
+     * Validates that a given account is the same as the account that the transaction has an ID for.
+     * 
+     * @param acc account to be validated.
+     * 
+     * @return true if the account is correct, false if not.
+     */
+    @Override
     public boolean validate(Account acc) {
+        if (acc.getID() == this.getID()) {
+            return true;
+        }
+        else {
         return false;
-    }*/
+        }
+    }
 }

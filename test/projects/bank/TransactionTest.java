@@ -49,15 +49,15 @@ public class TransactionTest {
         assertEquals("ABCDEF", t.getID());
     }
 
-    /*@Test
-    void testValidateDeposit() {
-        // TODO
+    @Test
+    void testValidateSuccess() {
+        assertEquals(true, depo.validate(acc));
     }
 
     @Test
-    void testValidateWithdrawal() {
-        // TODO
-    }*/
+    void testValidateFailure() {
+        assertEquals(false, with.validate(acc));
+    }
 
     @Test
     void testExecuteDeposit() {
