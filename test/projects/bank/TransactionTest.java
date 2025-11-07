@@ -47,16 +47,19 @@ public class TransactionTest {
     void factoryMethodWorks() {
         Transaction t = Transaction.factoryFromCSV("deposit,ABCDEF,10.0");
         assertEquals("ABCDEF", t.getID());
+        // TODO check amount
     }
 
     @Test
     void testValidateSuccess() {
         assertEquals(true, depo.validate(acc));
+        // TODO check with
     }
 
     @Test
     void testValidateFailure() {
         assertEquals(false, with.validate(acc));
+        // TODO check depo
     }
 
     @Test

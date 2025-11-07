@@ -1,3 +1,10 @@
+/** TODO / comments
+ * 
+ * processTransactions
+ * don't return -1. this breaks the interpretation of the returned value as the number of transactions that were processed.
+ * when you declare acc, you're assuming that findAccountByID(t.getID()) != -1. but that could happen, and your code needs changing to handle this case.
+ * double-check that your transaction constructor/factory and account constructor/factory cannot possibly return null. then clean up that unnecessary null checking logic.
+ */
 package projects.bank;
 
 import java.io.File;

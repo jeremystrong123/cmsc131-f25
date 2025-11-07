@@ -130,6 +130,11 @@ public class BankTest {
         bank2.addAccount(c);
         bank2.addAccount(d);
         bank2.addAccount(e);
+        /*
+         * this test passes but the assertion below makes no sense conceptually
+         * you set up five accounts and one transaction for each of them. so why does processTransactions return 0?
+         * go back to that method and see if you can find the bug. if you find it and correct it in a future commit, i'll award you full points for this test. for now i'm awarding zero because this is an egregious violation of common sense :)
+         */
         assertEquals(0, bank2.processTransactions("data/test-transactions.csv"));
         assertEquals(7843.43, a.getBalance());
         assertEquals(2481.71, b.getBalance());

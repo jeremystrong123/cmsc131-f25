@@ -1,3 +1,11 @@
+/** TODO / comments
+ * 
+ * credit method
+ * move validation of amount into transaction constructor. it's better to block bad transactiosn from being created than to deal with bad transactions in downstream code
+ * 
+ * debit method
+ * same comment
+ */
 package projects.bank;
 
 abstract class Account{

@@ -1,3 +1,7 @@
+/** TODO / comments
+ * 
+ * it's better to put the amount validation in the transaction constructor, rather than in the account credit/debit methods. 
+ */
 package projects.bank;
 
 abstract class Transaction {

@@ -8,6 +8,7 @@ public class Main {
     public static void main(String[] args) {
         phase1();
         phase2();
+        phase3();
     }
 
     public static void phase1() {
@@ -15,11 +16,10 @@ public class Main {
         try {
             FileWriter writer = new FileWriter(new File(logName));
 
-            Account acct = new Account(
+            Account acct = new SavingsAccount(
                 "id1",
                 "Owner Name",
-                1.0,
-                "SAVINGS"
+                1.0
             );
             
             writer.write(
@@ -74,6 +74,14 @@ public class Main {
 
         String outputFilename = "data/phase2.csv";
         bank.writeAccounts(outputFilename);
+    }
+
+    public static void phase3() {
+        Bank bank = new Bank();
+        bank.loadAccounts("data/accounts.csv"); // ignore output
+        int step2 = bank.processTransactions("data/transactions.csv");
+        bank.writeAccounts("data/accounts-Phase3Out.csv");
+        System.out.println("Number of transactions processed: " + step2); // ignore output
     }
 }
 
