@@ -32,6 +32,18 @@ public class TransactionTest {
     }
 
     @Test
+    void constructorThrowsForInvalidValue() {
+        Exception e = assertThrows(
+        IllegalArgumentException.class, 
+        () -> {new Deposit("ABCDEF", -3);}
+        );
+        assertEquals(
+            "Value must be a positive number greater than zero.",
+            e.getMessage()
+        );
+    }
+
+    @Test
     void factoryThrowsForNull() {
         Exception e = assertThrows(
         IllegalArgumentException.class, 
@@ -47,19 +59,29 @@ public class TransactionTest {
     void factoryMethodWorks() {
         Transaction t = Transaction.factoryFromCSV("deposit,ABCDEF,10.0");
         assertEquals("ABCDEF", t.getID());
-        // TODO check amount
+        assertEquals(10.0, t.getAmount());
     }
 
     @Test
-    void testValidateSuccess() {
+    void testDepositValidateSuccess() {
         assertEquals(true, depo.validate(acc));
-        // TODO check with
     }
 
     @Test
-    void testValidateFailure() {
+    void testDepositValidateFailure() {
+        Deposit depo2 = new Deposit("GHIJKL", 5.59);
+        assertEquals(false, depo2.validate(acc));
+    }
+
+    @Test
+    void testWithdrawalValidateSuccess() {
+        Withdrawal with2 = new Withdrawal("ABCDEF", 3.50);
+        assertEquals(true, with2.validate(acc));
+    }
+
+    @Test
+    void testWithdrawalValidateFailure() {
         assertEquals(false, with.validate(acc));
-        // TODO check depo
     }
 
     @Test

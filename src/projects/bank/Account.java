@@ -1,11 +1,3 @@
-/** TODO / comments
- * 
- * credit method
- * move validation of amount into transaction constructor. it's better to block bad transactiosn from being created than to deal with bad transactions in downstream code
- * 
- * debit method
- * same comment
- */
 package projects.bank;
 
 abstract class Account{
@@ -134,11 +126,6 @@ abstract class Account{
      */
     public void credit(double amount) {
         double newBalance = 0;
-        if (amount <= 0) {
-            throw new IllegalArgumentException(
-                "Amount to be credited must be a positive number greater than zero."
-            ); 
-        }
         newBalance = (currentBalance + amount);
         newBalance = roundToTwoDecimalPlaces(newBalance);
         currentBalance = newBalance;
@@ -153,12 +140,7 @@ abstract class Account{
      */
     public void debit(double amount) {
         double newBalance = 0;
-        if (amount <= 0) {
-            throw new IllegalArgumentException(
-                "Amount to be debited must be a positive number greater than zero."
-            ); 
-        }
-        else if ((currentBalance - amount) < 0) {
+        if ((currentBalance - amount) < 0) {
             throw new IllegalArgumentException(
                 "Non-suffienct funds, account balance cannot be withdrawn over the current balance."
             ); 

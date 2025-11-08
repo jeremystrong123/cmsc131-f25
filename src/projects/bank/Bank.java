@@ -1,10 +1,3 @@
-/** TODO / comments
- * 
- * processTransactions
- * don't return -1. this breaks the interpretation of the returned value as the number of transactions that were processed.
- * when you declare acc, you're assuming that findAccountByID(t.getID()) != -1. but that could happen, and your code needs changing to handle this case.
- * double-check that your transaction constructor/factory and account constructor/factory cannot possibly return null. then clean up that unnecessary null checking logic.
- */
 package projects.bank;
 
 import java.io.File;
@@ -160,7 +153,7 @@ public class Bank{
      * 
      * @param file file path for the file holding all of the transactions.
      * 
-     * @return 0 if successful, -1 if fail.
+     * @return number of transactions processed if successful, 0 if fail.
      */
     public int processTransactions(String file) {
         int result = 0;
@@ -171,22 +164,17 @@ public class Bank{
             while (scan.hasNextLine()) {
                 String current = scan.nextLine();
                 Transaction t = Transaction.factoryFromCSV(current);
-                if (t != null) {
+                if (this.findAccountByID(t.getID()) != -1) {
                     Account acc = accounts[this.findAccountByID(t.getID())];
-                    if (acc == null) {
-                        System.out.println("Account with given ID does not exist.");
-                    }
-                    else {
-                        t.execute(acc);
-                    }
-                    
+                    t.execute(acc);
+                    result ++;
                 }
             }
             scan.close();
         }
         catch(FileNotFoundException e) {
             e.printStackTrace();
-            result = -1;
+            result = 0;
         }
         return result;
     }

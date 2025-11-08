@@ -89,33 +89,9 @@ public class AccountTest {
     }
 
     @Test
-    void creditThrowsForInvalidAmount() {
-        Exception e = assertThrows(
-        IllegalArgumentException.class, 
-        () -> {acc.credit(-1);}
-        );
-        assertEquals(
-            "Amount to be credited must be a positive number greater than zero.",
-            e.getMessage()
-        );
-    }
-
-    @Test
     void debitRemovesFromAccount() {
         acc.debit(10);
         assertEquals(89.99, acc.getBalance());
-    }
-
-    @Test
-    void debitThrowsForInvalidAmount() {
-        Exception e = assertThrows(
-        IllegalArgumentException.class, 
-        () -> {acc.debit(-1);}
-        );
-        assertEquals(
-            "Amount to be debited must be a positive number greater than zero.",
-            e.getMessage()
-        );
     }
 
     @Test

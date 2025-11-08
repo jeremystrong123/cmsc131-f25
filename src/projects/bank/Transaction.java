@@ -1,7 +1,3 @@
-/** TODO / comments
- * 
- * it's better to put the amount validation in the transaction constructor, rather than in the account credit/debit methods. 
- */
 package projects.bank;
 
 abstract class Transaction {
@@ -30,6 +26,11 @@ abstract class Transaction {
             throw new IllegalArgumentException(
                 "Account ID must be a string."
             );
+        }
+        else if (value <= 0) {
+            throw new IllegalArgumentException(
+                "Value must be a positive number greater than zero."
+            ); 
         }
         accountID = id;
         amount = value;
