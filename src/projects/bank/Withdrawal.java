@@ -17,24 +17,26 @@ public class Withdrawal extends Transaction {
      * @param acc account to be debited from.
      */
     @Override
-    public void execute(Account acc) {
+    public void execute(Account acc, Audit audit) {
         acc.debit(this.getAmount());
+        audit.recordTransaction(this, acc);
     }
 
     /**
-     * Validates that a given account is the same as the account that the transaction has an ID for and that the account has sufficient funds for a withdrawal.
+     * Validates that a given account has sufficient funds for a withdrawal.
      * 
      * @param acc account to be validated.
      * 
-     * @return true if the account is correct and has sufficient funds, false if not.
+     * @return true if the account has sufficient funds, false if not.
      */
     @Override
-    public boolean validate(Account acc) {
-        if ((acc.getID() == this.getID()) && (acc.getBalance() >= this.getAmount())) {
+    public boolean validate(Account acc, Audit audit) {
+        if ((acc.getBalance() >= this.getAmount())) {
             return true;
         }
         else {
-        return false;
+            audit.nonSufficientFunds(this, acc);
+            return false;
         }
     }
 }

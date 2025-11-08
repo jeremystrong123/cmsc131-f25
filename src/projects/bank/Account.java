@@ -58,7 +58,7 @@ abstract class Account{
 
     /**
      * Accessor for account balance.
-     * @return the current balance in the acount as a double.
+     * @return the current balance in the account as a double.
      */
     public double getBalance() {
         return currentBalance;

@@ -151,30 +151,38 @@ public class Bank{
     /**
      * Processes a list of transactions from a file.
      * 
-     * @param file file path for the file holding all of the transactions.
+     * @param txFile file path for the file holding all of the transactions.
+     * 
+     * @param auFile file path for audit file.
      * 
      * @return number of transactions processed if successful, 0 if fail.
      */
-    public int processTransactions(String file) {
+    public int processTransactions(String txFile, String auFile) {
         int result = 0;
-        File transactionsFile = new File(file);
-        Scanner scan;
+        File transactionsFile = new File(txFile);
         try {
-            scan = new Scanner(transactionsFile);
-            while (scan.hasNextLine()) {
-                String current = scan.nextLine();
-                Transaction t = Transaction.factoryFromCSV(current);
-                if (this.findAccountByID(t.getID()) != -1) {
-                    Account acc = accounts[this.findAccountByID(t.getID())];
-                    t.execute(acc);
-                    result ++;
+            Audit audit = new Audit(auFile);
+            Scanner scan;
+            try {
+                scan = new Scanner(transactionsFile);
+                while (scan.hasNextLine()) {
+                    String current = scan.nextLine();
+                    Transaction t = Transaction.factoryFromCSV(current);
+                    if (this.findAccountByID(t.getID()) != -1) {
+                        Account acc = accounts[this.findAccountByID(t.getID())];
+                        t.execute(acc, audit);
+                        result ++;
+                    }
                 }
+                scan.close();
             }
-            scan.close();
+            catch(FileNotFoundException e) {
+                e.printStackTrace();
+                result = 0;
+            }
         }
-        catch(FileNotFoundException e) {
+        catch(IOException e) {
             e.printStackTrace();
-            result = 0;
         }
         return result;
     }

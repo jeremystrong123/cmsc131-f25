@@ -1,5 +1,4 @@
 /** TODO / comments
- * 
  * it would be better to have the bank ensure that the target account ID matches the account passed to validate. after all, validate is called only if an account is found. and if an account is found, then its ID matches the transaction's accound ID.
  */
 package projects.bank;
@@ -17,8 +16,9 @@ public class Deposit extends Transaction {
      * @param acc account to be credited.
      */
     @Override
-    public void execute(Account acc) {
+    public void execute(Account acc, Audit audit) {
         acc.credit(this.getAmount());
+        audit.recordTransaction(this, acc);
     }
 
     /**
@@ -29,11 +29,12 @@ public class Deposit extends Transaction {
      * @return true if the account is correct, false if not.
      */
     @Override
-    public boolean validate(Account acc) {
+    public boolean validate(Account acc, Audit audit) {
         if (acc.getID() == this.getID()) {
             return true;
         }
         else {
+        audit.accountDoesNotExist(this);
         return false;
         }
     }

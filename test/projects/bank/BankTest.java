@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class BankTest {
+    
     private Bank bank;
     private Account acc;
 
@@ -130,7 +131,7 @@ public class BankTest {
         bank2.addAccount(c);
         bank2.addAccount(d);
         bank2.addAccount(e);
-        assertEquals(5, bank2.processTransactions("data/test-transactions.csv"));
+        assertEquals(5, bank2.processTransactions("data/test-transactions.csv", "test/audit.log"));
         assertEquals(7843.43, a.getBalance());
         assertEquals(2481.71, b.getBalance());
         assertEquals(6441.50, c.getBalance());
@@ -141,7 +142,7 @@ public class BankTest {
 
     @Test
     void processTransactionsFails() {
-        assertEquals(0, bank.processTransactions("ahh/ahhh.file"));
+        assertEquals(0, bank.processTransactions("ahh/ahhh.file", "test/audit.log"));
     }
 
 }

@@ -3,6 +3,8 @@ package projects.bank;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.io.IOException;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,12 +13,19 @@ public class TransactionTest {
     
     private Account acc;
     private Transaction depo, with;
+    private Audit au;
 
     @BeforeEach
     void setUp() {
         acc = new CheckingAccount("ABCDEF", "Bob", 99.99);
         depo = new Deposit("ABCDEF", 3.50);
         with = new Withdrawal("GHIJKL", 5.59);
+        try {
+        au = new Audit("test/audit.log");
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -64,35 +73,36 @@ public class TransactionTest {
 
     @Test
     void testDepositValidateSuccess() {
-        assertEquals(true, depo.validate(acc));
+        assertEquals(true, depo.validate(acc, au));
     }
 
     @Test
     void testDepositValidateFailure() {
         Deposit depo2 = new Deposit("GHIJKL", 5.59);
-        assertEquals(false, depo2.validate(acc));
+        assertEquals(false, depo2.validate(acc, au));
     }
 
     @Test
     void testWithdrawalValidateSuccess() {
         Withdrawal with2 = new Withdrawal("ABCDEF", 3.50);
-        assertEquals(true, with2.validate(acc));
+        assertEquals(true, with2.validate(acc, au));
     }
 
     @Test
     void testWithdrawalValidateFailure() {
-        assertEquals(false, with.validate(acc));
+        Account acc2 = new CheckingAccount("XYZ", "Jim", 0);
+        assertEquals(false, with.validate(acc2, au));
     }
 
     @Test
     void testExecuteDeposit() {
-        depo.execute(acc);
+        depo.execute(acc, au);
         assertEquals(103.49, acc.getBalance());
     }
 
     @Test
     void testExecuteWithdrawal() {
-        with.execute(acc);
+        with.execute(acc, au);
         assertEquals(94.40, acc.getBalance());
     }
 }

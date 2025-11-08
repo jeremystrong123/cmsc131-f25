@@ -7,9 +7,9 @@ abstract class Transaction {
     private final double amount;
 
     //abstract methods used by subclasses
-    abstract void execute(Account account);
+    abstract void execute(Account account, Audit audit);
 
-    abstract boolean validate(Account account);
+    abstract boolean validate(Account account, Audit audit);
 
     //constructor
     /** 
