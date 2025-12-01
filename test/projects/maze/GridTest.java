@@ -9,9 +9,9 @@ public class GridTest {
     public void testInsertAndRetrieveFirstCell() {
         Grid grid = new Grid(10);
         Coords coords = new Coords(0, 0);
-        Cell cell = new Cell(coords);
+        Cell cell = new Cell(coords, "O");
         
-        grid.insertCell(cell);
+        assertTrue(grid.insertCell(cell));
         
         Cell retrieved = grid.getCell(coords);
         assertNotNull(retrieved);
@@ -20,8 +20,8 @@ public class GridTest {
     @Test
     public void testCellCountAfterInsert() {
     Grid grid = new Grid(10);
-    Cell cell1 = new Cell(new Coords(0, 0));
-    Cell cell2 = new Cell(new Coords(1, 1));
+    Cell cell1 = new Cell(new Coords(0, 0), "O");
+    Cell cell2 = new Cell(new Coords(1, 1), "O");
     
     grid.insertCell(cell1);
     assertEquals(1, grid.getCellCount());
@@ -33,9 +33,9 @@ public class GridTest {
 @Test
 public void testGetAllCellsReturnsCorrectCount() {
     Grid grid = new Grid(10);
-    grid.insertCell(new Cell(new Coords(0, 0)));
-    grid.insertCell(new Cell(new Coords(1, 1)));
-    grid.insertCell(new Cell(new Coords(2, 2)));
+    grid.insertCell(new Cell(new Coords(0, 0), "O"));
+    grid.insertCell(new Cell(new Coords(1, 1), "O"));
+    grid.insertCell(new Cell(new Coords(2, 2), "O"));
     
     Cell[] allCells = grid.getAllCells();
     assertEquals(3, allCells.length);
@@ -49,10 +49,39 @@ public void testGetAllCellsReturnsCorrectCount() {
 public void testInsertAtCapacityBoundary() {
     Grid grid = new Grid(3);
     
-    assertTrue(grid.insertCell(new Cell(new Coords(0, 0))));
-    assertTrue(grid.insertCell(new Cell(new Coords(1, 1))));
-    assertTrue(grid.insertCell(new Cell(new Coords(2, 2))));
-    assertFalse(grid.insertCell(new Cell(new Coords(3, 3))));
+    assertTrue(grid.insertCell(new Cell(new Coords(0, 0), "O")));
+    assertTrue(grid.insertCell(new Cell(new Coords(1, 1), "O")));
+    assertTrue(grid.insertCell(new Cell(new Coords(2, 2), "O")));
+    assertFalse(grid.insertCell(new Cell(new Coords(3, 3), "O")));
 }
 
+@Test
+public void getCellTest() {
+    Grid grid = new Grid(3);
+    Cell cell = new Cell(new Coords(1, 3), "O");
+    grid.insertCell(cell);
+    
+    assertEquals(cell, grid.getCell(new Coords(1, 3)));
+}
+
+@Test
+public void getCellTestReturnsNull() {
+    Grid grid = new Grid(3);
+    Cell cell = new Cell(new Coords(1, 3), "O");
+    grid.insertCell(cell);
+    
+    assertEquals(null, grid.getCell(new Coords(1, 2)));
+}
+
+@Test
+public void getCellCountReturnsCorrectValue() {
+    Grid grid = new Grid(3);
+    Cell cell1 = new Cell(new Coords(1, 3), "O");
+    Cell cell2 = new Cell(new Coords(1, 2), "O");
+    grid.insertCell(cell1);
+    grid.insertCell(cell2);
+
+    assertEquals(2, grid.getCellCount());
+
+}
 }

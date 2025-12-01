@@ -28,10 +28,10 @@ public class MazeReader {
                 String[] tokens = scanner.nextLine().split(",");
                 for (int i = 0; i < tokens.length; i++) {
                     if (!tokens[i].equals("X")) {
-                        maze.insertCell(
+                        maze.getGrid().insertCell(
                             new Cell(
                                 new Coords(row, col),
-                                CellStatus.valueOf(tokens[i]) 
+                                tokens[i] 
                             )
                         );
                     }
@@ -40,7 +40,7 @@ public class MazeReader {
                 row++; // new row
             }
             scanner.close();
-            maze.discoverAndSetupNeighbors();
+            maze.setupNeighbors();
             return maze;
         } catch (FileNotFoundException e) {
             e.printStackTrace();

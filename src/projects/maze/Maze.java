@@ -19,14 +19,58 @@ import java.io.IOException;
 
 public class Maze {
 
+    //Instance Variable
     private final Grid grid;
 
+    //Constructor
     public Maze(int maxCells) {
         grid = new Grid(maxCells);
     }
 
-    public void discoverAndSetupNeighbors() {
+    //Methods
+    /**
+     * Find the cell in the grid with the CellStatus 'S'.
+     * 
+     * @return the proper cell if found, null if not found.
+     */
+    public Cell getStart() {
+        for (int i = 0; i < grid.getCellCount(); i++) {
+            if(grid.getAllCells()[i].getStatus() == CellStatus.valueOf("S")) {
+                return grid.getAllCells()[i];
+            }
+        }
+        return null;
+    }
 
+    /**
+     * Find the cell in the grid with the CellStatus 'E'.
+     * 
+     * @return the proper cell if found, null if not found.
+     */
+    public Cell getEnd() {
+        for (int i = 0; i < grid.getCellCount(); i++) {
+            if(grid.getAllCells()[i].getStatus() == CellStatus.valueOf("E")) {
+                return grid.getAllCells()[i];
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Adds the coordinates of all of the cell's neighbors to its neighbors array.
+     */
+    public void setupNeighbors() {
+        for (int i = 0; i < grid.getCellCount(); i++) {
+            grid.getAllCells()[i].setNeighbors();
+        }
+    }
+
+    /**
+     * Accessor for the maze's grid.
+     * @return grid of the maze
+     */
+    public Grid getGrid() {
+        return grid;
     }
 
     /**
@@ -57,7 +101,7 @@ public class Maze {
                         new Coords(row, col)
                     );
                     if (maybeCell != null) {
-                        writer.write(maybeCell.getStatus().name());
+                        writer.write(maybeCell.getStatus().toString()/*maybeCell.getCoords().toString()*/);
                         idxCell++;
                     } else {
                         writer.write('X');
