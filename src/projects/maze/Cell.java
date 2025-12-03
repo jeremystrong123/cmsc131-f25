@@ -40,6 +40,7 @@ public class Cell {
      * @throws IllegalArgumentException If status is not a valid type.
     */
     public Cell(Coords c, String s) {
+        // you should just pass a CellStatus argument instead of a String
         if ((s.toUpperCase().equals("S") || 
         s.toUpperCase().equals("E") || 
         s.toUpperCase().equals("O") || 
@@ -67,6 +68,8 @@ public class Cell {
      * Updates the neigbors array with all adjacent cell coordinates to the cell.
      */
     public void setNeighbors() {
+        // needs to use the grid as context, to test which of these coords 
+        // actually belong to a grid cell
         Coords c1 = new Coords(coords.getRow()+1, coords.getCol());
         Coords c2 = new Coords(coords.getRow()-1, coords.getCol());
         Coords c3 = new Coords(coords.getRow(), coords.getCol()+1);
